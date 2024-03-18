@@ -1,0 +1,5 @@
+#+title: Readme
+#+author: Hugo de Oliveira Resende
+
+* Por que existe este projeto?
+basicamente para fazer as listas de exercicios pedido pelo professor *WILLIAM ROBERTO MALVEZZI* da Universidade Catolica de Brasilia - UCB.
