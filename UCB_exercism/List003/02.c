@@ -1,7 +1,7 @@
 #include "stdio.h"
 
 int main() {
-  float Soma = 1.0, fat = 1.0;
+  double Soma = 1.0, fat = 1.0;
   int num, i, j;
 
   printf("digite um numero maior que zero e inteiro\n");
@@ -13,9 +13,9 @@ int main() {
       for (j = i; j > 1; j--) {
         fat = fat * j;
       }
-      printf("fatorial de %d é %.2f\n", i, fat);
+      printf("fatorial de %d é %.2lf\n", i, fat);
       Soma = Soma + 1 / fat;
-      printf("a soma ate agora e de %f\n", Soma);
+      printf("a soma ate agora e de %lf\n", Soma);
     }
     printf("\n-------------------------------------------------\n");
     printf("\nA soma toda e %.14f\n", Soma);
