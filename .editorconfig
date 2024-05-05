@@ -1,0 +1,17 @@
+#top-most file
+root = true
+
+end_of_line = lf
+
+
+# macthes files to C
+[*.{c,por,org}]
+charset = utf-8
+
+[*.c]
+indent_style = space
+indent_size = 2
+
+[*.org]
+indent_style = tab
+indent_size = 2
