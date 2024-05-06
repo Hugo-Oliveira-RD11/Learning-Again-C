@@ -28,7 +28,7 @@ int main() {
 
   for (int i = 0; i < LIM; i++) {
     for (int j = 0; j < (LIM + 1); j++) {
-      printf("vetor[%d][%d]=[%d]", i, j, m[i][j]);
+      printf("vetor[%d][%d]=[%d]\n", i, j, m[i][j]);
     }
   }
   return 0;

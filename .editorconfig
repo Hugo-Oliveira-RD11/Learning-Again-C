@@ -10,7 +10,7 @@ charset = utf-8
 
 [*.c]
 indent_style = space
-indent_size = 2
+indent_size = 4
 
 [*.org]
 indent_style = tab
