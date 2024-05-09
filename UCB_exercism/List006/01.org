@@ -1,0 +1,20 @@
+#+title: 01
+#+author: hugo de oliveira resende
+
+* O problema 01
+
+#+begin_src c
+#include <stdio.h>
+
+void procedure(int *p, int*q){
+    int *temp;
+    *temp= *p;
+    *p= *q;
+    *q= *temp;
+}
+
+#+end_src
+
+Dentro desse caso, a variavel temp e declarada como ponteiro
+sendo que não aponta para uma variavel do tipo primitivo inteiro, ou seja,
+ela não aponta para uma variavel guardade.

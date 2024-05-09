@@ -1,0 +1,24 @@
+#+title: 02
+#+author: hugo de oliveira resende
+
+* o problema 02
+#+begin_src C
+#include <stdio.h>
+int main(){
+ int i=99,j;
+int *p;
+p = &i;
+j = *p+100;
+return 0;
+}
+#+end_src
+
+#+RESULTS:
+
+Com o codigo e o resultado, avaliado agora linha a linha temos que
+na
+1° linha - declara duas variaveis, uma i=99 e outra sem ser iniciada
+2° linha - declara uma variavel ponteiro de nome p
+3° linha - declara que a variavel p (ponteiro) vai receber o endereço de variavel do i
+4° linha - declara que a variavel j vai receber o que estar dentro de p mais 100, ou seja, o numero
+de i mais 100.

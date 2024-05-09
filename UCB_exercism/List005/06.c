@@ -16,23 +16,43 @@ int main() {
   for (int i = 0; i < students; i++) {
     printf("digite as respostas do aluno %d\n", i);
     InputVetor(vetor);
-    printf("acertos: %d", VerifyTemplate(vetor, template));
+    printf("acertos: %d\n", VerifyTemplate(vetor, template));
   }
   return 0;
 }
 void InputVetor(char vetor[LIM]) {
-  char answer = 'N';
+  char answer, answer2 = 'A';
   int i = 0;
   while (i < LIM) {
     printf("%d° - ", i);
     scanf(" %c", &answer);
-    answer = toupper(answer);
-    if ('A' != answer || 'B' != answer || 'C' != answer || 'D' != answer ||
-        'E' != answer) {
+    answer2 = toupper(answer);
+    switch (answer2) {
+    case 'A':
+      vetor[i] = answer2;
+      i++;
+      break;
+    case 'B':
+      vetor[i] = answer2;
+      i++;
+      break;
+    case 'C':
+      vetor[i] = answer2;
+      i++;
+      break;
+    case 'D':
+      vetor[i] = answer2;
+      i++;
+      break;
+    case 'E':
+      vetor[i] = answer2;
+      i++;
+      break;
+    default:
       printf("essa letra nao pode ser usada em prova\n");
       continue;
+      break;
     }
-    i++;
   }
 }
 int VerifyTemplate(char vet[LIM], char template[LIM]) {
