@@ -13,49 +13,51 @@ typedef struct {
 Conta contas[LimConta];
 
 void Cadastro(int *Limcontas) {
-  int num;
+  int num = 0, num1 = 0;
 
   while (1) {
-    if (*Limcontas < LimConta) {
+    if (num <= LimConta) {
       printf("digite o numero da conta\n");
       scanf("%d", &contas[*Limcontas].NumConta);
       printf("digite o nome do dono da conta\n");
-      fgets(contas[*Limcontas].Nome, LIM, stdin);
+      scanf(" %s", contas[*Limcontas].Nome);
       printf("digite o saldo da conta\n");
       scanf("%d", &contas[*Limcontas].Saldo);
-      *Limcontas++;
+      (*Limcontas)++;
     } else {
       printf("ja passou do limite dos funcionarios");
       continue;
     }
 
     printf("quer continuar inserindo contas ?\n 0 - não quero\n 1 - quero\n");
-    scanf("%d", &num);
-    if (num == 1)
+    scanf("%d", &num1);
+    if (num1 == 1)
       continue;
-    else
+    else {
       break;
+    }
   }
 }
-void Visualizar(int *Limcontas) {
-  char InputName[100];
-  int Chose;
+void Visualizar(int Limcontas) {
+  int Chose, search;
 
-  printf("quer verificar qual tipo de conta\n");
+  printf("quer verificar qual tipo de conta\n1 - todas as contas\n2 - um tipo "
+         "de conta\n");
   scanf("%d", &Chose);
   switch (Chose) {
-  case 0:
-    for (int i = *Limcontas; i > 0; i--) {
-      printf("numro da conta: %d\nNome da conta: %s\nSaldo: %d",
-             &contas[i].NumConta, &contas[i].Nome, &contas[i].Saldo);
+  case 1:
+    for (int i = 0; i < Limcontas; i++) {
+      printf("numero da conta: %d\nNome da conta: %s\nSaldo: %d\n",
+             contas[i].NumConta, contas[i].Nome, contas[i].Saldo);
     }
     break;
-  case 1:
-    fgets(InputName, LIM, stdin);
+  case 2:
+    printf("digite o numero da conta\n");
+    scanf(" %d", &search);
     for (int i = 0; i < LimConta; i++) {
-      if (InputName == contas[i].Nome) {
-        printf("numro da conta: %d\nNome da conta: %s\nSaldo: %d",
-               &contas[i].NumConta, &contas[i].Nome, &contas[i].Saldo);
+      if (search == contas[i].NumConta) {
+        printf("numro da conta: %d\nNome da conta: %s\nSaldo: %d\n",
+               contas[i].NumConta, contas[i].Nome, contas[i].Saldo);
       }
     }
     break;
@@ -64,17 +66,21 @@ void Visualizar(int *Limcontas) {
   }
 }
 void ExcluirMenor(int *Limcontas) {
-  int min = contas[0].Saldo;
-  for (int i = 0; i < *Limcontas; i++) {
-    for (int j = i + 1; j < *Limcontas; j++)
-      if (contas[min].Saldo > contas[j].Saldo)
-        min = j;
+  int min = 0;
+  for (int i = 1; i < *Limcontas; i++) {
+    if (contas[i].Saldo < contas[min].Saldo)
+      min = i;
   }
-  contas[min].NumConta = 0;
-  contas[min].Saldo = 0;
-  strcpy(contas[min].Nome, "");
-  printf("numro da conta: %d\nNome da conta: %s\nSaldo: %d",
-         &contas[min].NumConta, &contas[min].Nome, &contas[min].Saldo);
+
+  printf("Conta excluida:\nNumero da conta: %d\nNome da conta: %s\nSaldo: %d\n",
+         contas[min].NumConta, contas[min].Nome, contas[min].Saldo);
+
+  // Shift accounts up
+  for (int i = min; i < *Limcontas - 1; i++) {
+    contas[i] = contas[i + 1];
+  }
+
+  (*Limcontas)--;
 }
 
 void Bank() {
@@ -88,7 +94,7 @@ void Bank() {
       Cadastro(&limContas);
       break;
     case 2:
-      Visualizar(&limContas);
+      Visualizar(limContas);
       break;
     case 3:
       ExcluirMenor(&limContas);
