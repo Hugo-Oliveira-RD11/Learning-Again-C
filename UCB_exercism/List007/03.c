@@ -1,115 +1,110 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
-#define MAX_ITENS 40
+#define LIM 100
+#define ATUAL 40
+#define Str "E tudo o mesmo brinquedo"
 
-// Definição da estrutura para representar um item
-struct Item {
-  int codigo;
-  char descricao[50];
-  float preco_compra;
-  float preco_venda;
-  int quantidade;
-  int estoque_minimo;
-};
+typedef struct {
+  int Codigo;
+  int precoCompra;
+  int precoVenda;
+  int quantidadeEstoque;
+  int estoqueMinimo;
+  int Vendas;
+  char descricao[LIM];
+} Brinquedo;
 
-// Função para cadastrar um novo produto
-void cadastrarProduto(struct Item produtos[], int *num_produtos) {
-  if (*num_produtos < MAX_ITENS) {
-    printf("Digite o código do produto: ");
-    scanf("%d", &produtos[*num_produtos].codigo);
-    printf("Digite a descrição do produto: ");
-    scanf(" %[^\n]", produtos[*num_produtos].descricao);
-    printf("Digite o preço de compra do produto: R$ ");
-    scanf("%f", &produtos[*num_produtos].preco_compra);
-    printf("Digite o preço de venda do produto: R$ ");
-    scanf("%f", &produtos[*num_produtos].preco_venda);
-    printf("Digite a quantidade em estoque do produto: ");
-    scanf("%d", &produtos[*num_produtos].quantidade);
-    printf("Digite o estoque mínimo permitido do produto: ");
-    scanf("%d", &produtos[*num_produtos].estoque_minimo);
+Brinquedo brinquedos[LIM];
 
-    (*num_produtos)++;
-    printf("Produto cadastrado com sucesso!\n");
-  } else {
-    printf("O estoque está cheio, não é possível cadastrar mais produtos.\n");
+void Create(int *i) {
+  while ((*i) < 40) {
+    brinquedos[(*i)].Codigo = (rand() % 100);
+    brinquedos[(*i)].estoqueMinimo = (rand() % 10) + 1;
+    brinquedos[(*i)].quantidadeEstoque = (rand() % 10) + 1;
+    brinquedos[(*i)].precoCompra = (rand() % 10) + 1;
+    brinquedos[(*i)].precoVenda = (rand() % 100);
+    brinquedos[(*i)].Vendas = (rand() % 10);
+    strcpy(brinquedos[(*i)].descricao, Str);
+
+    (*i)++;
   }
 }
 
-// Função para calcular e mostrar o lucro obtido com a venda de um produto e o
-// percentual desse lucro
-void mostrarLucro(struct Item produtos[], int num_produtos,
-                  int codigo_produto) {
-  int i;
-  for (i = 0; i < num_produtos; i++) {
-    if (produtos[i].codigo == codigo_produto) {
-      float lucro = produtos[i].preco_venda - produtos[i].preco_compra;
-      float percentual_lucro = (lucro / produtos[i].preco_compra) * 100;
-      printf("Lucro obtido com a venda do produto %d (%s): R$ %.2f\n",
-             produtos[i].codigo, produtos[i].descricao, lucro);
-      printf("Percentual de lucro: %.2f%%\n", percentual_lucro);
-      return;
-    }
-  }
-  printf("Produto não encontrado.\n");
-}
+void Cadastro(int *num) {
 
-// Função para mostrar os produtos com quantidade em estoque abaixo do estoque
-// mínimo permitido
-void mostrarProdutosAbaixoDoEstoqueMinimo(struct Item produtos[],
-                                          int num_produtos) {
-  printf("Produtos com quantidade em estoque abaixo do estoque mínimo:\n");
-  for (int i = 0; i < num_produtos; i++) {
-    if (produtos[i].quantidade < produtos[i].estoque_minimo) {
-      printf("Código: %d, Descrição: %s, Quantidade em estoque: %d\n",
-             produtos[i].codigo, produtos[i].descricao, produtos[i].quantidade);
-    }
+  if (*num > LIM)
+    return;
+
+  printf("digite o Codigo:\n");
+  scanf("%d", &brinquedos[*num].Codigo);
+  printf("digite o Estoque minimo:\n");
+  scanf("%d", &brinquedos[*num].estoqueMinimo);
+  printf("digite a quantidade que tem no estoque:\n");
+  scanf("%d", &brinquedos[*num].quantidadeEstoque);
+  printf("digite o preco da compra:\n");
+  brinquedos[*num].precoCompra = (rand() % 1000);
+  scanf("%d", &brinquedos[*num].precoCompra);
+  printf("digite o preco da venda:\n");
+  scanf("%d", &brinquedos[*num].precoVenda);
+  printf("digite o numero das vendas:\n");
+  scanf("%d", &brinquedos[*num].Vendas);
+  printf("digite a descricao:\n");
+  scanf(" %s", brinquedos[*num].descricao);
+  (*num)++;
+}
+void AbaixoEstoque(int flag) {
+  for (int i = 1; i < flag; i++) {
+    if (brinquedos[i].estoqueMinimo > brinquedos[i].quantidadeEstoque)
+      printf("Codigo: %d\nEstoque atual: %d\nEstoque minimo permitido: "
+             "%d\npreco compra: %d\npreco da venda: %d\nNumero de vendas: "
+             "%d\ndescricao: %s\n",
+             brinquedos[i].Codigo, brinquedos[i].quantidadeEstoque,
+             brinquedos[i].estoqueMinimo, brinquedos[i].precoCompra,
+             brinquedos[i].precoVenda, brinquedos[i].Vendas,
+             brinquedos[i].descricao);
+    printf("\n=======================================\n");
   }
+}
+int Lucro(int op, int *num) {
+  int flag;
+  for (int i = 0; i < *num; i++) {
+    if (op == brinquedos[i].Codigo)
+      flag = i;
+  }
+  return (brinquedos[flag].precoVenda - brinquedos[flag].precoCompra) *
+         brinquedos[flag].Vendas;
 }
 
 int main() {
-  struct Item produtos[MAX_ITENS];
-  int num_produtos = 0;
-  int opcao;
-
+  int num = 0, op = 0, Chose;
+  int lucro = 0.0;
   do {
-    printf("\n===== Menu =====\n");
-    printf("1. Cadastrar novo produto\n");
-    printf("2. Mostrar lucro obtido com a venda de um produto\n");
-    printf("3. Mostrar produtos com quantidade em estoque abaixo do estoque "
-           "mínimo\n");
-    printf("4. Sair\n");
-    printf("Escolha uma opção: ");
-    scanf("%d", &opcao);
-
-    switch (opcao) {
+    printf("1- inserir 40 itens aleatoriamente\n2- Cadastrar um item\n3- "
+           "calcular um item\n4- Verificar itens do estoque\ndigite qualquer "
+           "outro numero para sair do programa\n");
+    scanf("%d", &Chose);
+    switch (Chose) {
     case 1:
-      cadastrarProduto(produtos, &num_produtos);
+      Create(&num);
       break;
     case 2:
-      if (num_produtos > 0) {
-        int codigo_produto;
-        printf("Digite o código do produto: ");
-        scanf("%d", &codigo_produto);
-        mostrarLucro(produtos, num_produtos, codigo_produto);
-      } else {
-        printf("Não há produtos cadastrados.\n");
-      }
+      Cadastro(&num);
       break;
     case 3:
-      if (num_produtos > 0) {
-        mostrarProdutosAbaixoDoEstoqueMinimo(produtos, num_produtos);
-      } else {
-        printf("Não há produtos cadastrados.\n");
-      }
+      printf("digite o numero do produto escolhido para saber o lucro\n");
+      scanf("%d", &op);
+      lucro = Lucro(op, &num);
+      printf("o lucro do produto escolhido e de %d\n\n", lucro);
       break;
     case 4:
-      printf("Saindo do programa...\n");
+      AbaixoEstoque(num);
       break;
     default:
-      printf("Opção inválida. Tente novamente.\n");
+      return 0;
     }
-  } while (opcao != 4);
+  } while (1);
 
   return 0;
 }
